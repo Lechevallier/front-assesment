@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-navbar text-center>
+        <ion-title>
+            Sort by...
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="dataService.changeSortOrder()">
+                <ion-icon name="arrow-{{ dataService.getAscending() ? 'up' : 'down' }}"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list radio-group [(ngModel)]="dataService.sortKey">
+        <ion-item *ngFor="let prop of sortableProperties">
+            <ion-label >
+                {{ formatterService.keyLabel(prop) }}
+                <ion-icon
+                    *ngIf="prop === dataService.sortKey"
+                    name="arrow-{{ dataService.getAscending() ? 'up' : 'down' }}"
+                ></ion-icon>
+            </ion-label>
+            <ion-radio [value]="prop"></ion-radio>
+        </ion-item>
+    </ion-list>
+    <button ion-button full (click)="close()">Ok</button>
+</ion-content>

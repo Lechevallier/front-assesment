@@ -1,14 +1,60 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
+	<ion-navbar text-center (click)="openSortKeyPopup()">
+		<ion-buttons end>
+			<button ion-button>
+				<ion-icon name="funnel"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-title>
+			{{ dataService.town }}
+		</ion-title>
+	</ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  	<ion-list>
+		<app-item *ngFor="let gnome of gnomes | async"
+			[src]="gnome.thumbnail"
+			[alt]="gnome.name"
+			[color]="gnome.hair_color"
+			(click)="viewDetails(gnome)"
+		>
+			{{ gnome.name }}
+			<p>
+			<span>
+				<ion-icon name="icon-birthday-cake"></ion-icon>
+				<span [innerHtml]="gnome.age"></span>
+				<ion-icon name="icon-height"></ion-icon>
+				<span [innerHtml]="gnome.height | format"></span>
+				<ion-icon name="icon-weight"></ion-icon>
+				<span [innerHtml]="gnome.weight | format"></span>
+			</span>
+			<span class="countable">
+				<span *ngIf="gnome.friends | hasValue">
+					<ion-icon name="contacts"></ion-icon>
+					<span [innerHtml]="gnome.friends.length"></span>
+				</span>
+				<span *ngIf="gnome.professions | hasValue">
+					<ion-icon name="hammer"></ion-icon>
+					<span [innerHtml]="gnome.professions.length"></span>
+				</span>
+			</span>
+			</p>
+      	</app-item>
+  	</ion-list>
+
+	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+		<ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+
 </ion-content>
+
+<ion-footer>
+	<form (ngSubmit)="hideKeyboard()">
+	<ion-searchbar
+		(ionInput)="searchGnomes($event.target.value)"
+		[showCancelButton]="true">
+	</ion-searchbar>
+</form>
+</ion-footer>

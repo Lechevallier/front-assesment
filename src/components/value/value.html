@@ -1,0 +1,10 @@
+<ion-grid *ngIf="value | hasValue">
+    <ion-row>
+        <ion-col text-right class="key">
+            <span [innerHtml]="label"></span>
+        </ion-col>
+        <ion-col>
+            <span [innerHtml]="value | format" class="nowrap"></span>
+        </ion-col>
+    </ion-row>
+</ion-grid>

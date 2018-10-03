@@ -1,0 +1,30 @@
+<ion-header>
+        <app-item
+            [src]="gnome.thumbnail"
+            [alt]="gnome.name"
+            [color]="gnome.hair_color"
+        >
+            {{ gnome.name }}
+            <button class="close-button" ion-button clear (click)="close()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </app-item>
+</ion-header>
+
+<ion-content>
+    <app-value
+        *ngFor="let prop of listedProperties"
+        [label]="formatterService.keyLabel(prop)"
+        [value]="gnome[prop]"
+    ></app-value>
+</ion-content>
+
+<ion-footer *ngIf="gnome.friends | hasValue">
+    <ion-toolbar>
+        <ion-icon name="contacts"></ion-icon>
+        <a *ngFor="let friend of gnome.friends; let last = last" (click)="openFriend(friend)">
+            {{ friend }}
+            <span *ngIf="!last">, </span>
+        </a>
+    </ion-toolbar>
+</ion-footer>
